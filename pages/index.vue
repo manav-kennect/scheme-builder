@@ -15,9 +15,9 @@
     </v-col>
   </v-row>
   <v-row>
-    <v-tabs v-model="tab" background-color="red" show-arrows dark continuous>
+    <v-tabs v-model="tab" background-color="red" show-arrows dark continuous :hide-slider="true" selected-class="active-class">
       <v-tab v-for="tabData in tabsStore.allTabs" :ripple="false" :value="tabData.prop" :key="tabData.prop"
-        slider-color="red">
+        :class="!['schemeset', 'schemesetting'].includes(tabData.prop)?'tab-style':''">
         <template v-slot:default>
           {{ tabData.name }}
           <v-icon append v-if="!['schemeset', 'schemesetting'].includes(tabData.prop)" class="ml-3" :icon="mdiClose"
@@ -67,10 +67,13 @@
     </v-col>
   </v-row>
   <v-row>
-    <v-data-table :headers="headers" :items="archiveState ? schemeStore.archivedSchemes : schemeStore.filteredSchemes"
-      hide-default-header :single-select="hover" select-strategy="single" :hover="true" :key="'id'" class="elevation-1">
+    <v-data-table :headers="headers" :fixed-header="true"  :hide-default-header="true" :items="archiveState ? schemeStore.archivedSchemes : schemeStore.filteredSchemes"
+       :single-select="hover" select-strategy="single" :hover="true" :key="'id'" class="elevation-1">
       <!-- <template v-slot:item.data-table-select="{item}">
     </template> -->
+    <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
+        <tr></tr>
+    </template>
 
       <template v-slot:item.displayName="{ item }">
         <div style="display: flex; flex-direction: column">
@@ -209,12 +212,8 @@ function handleMenuActions(selectedItem: {}, index: Number) {
   text-decoration: black;
 }
 
-.tab {
-  color: rgb(56, 56, 66) !important;
-  text-transform: none;
-  transition: none !important;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+.tab-style {
+  border-radius: 30px;
 }
 
 .active-tab:hover {
@@ -224,5 +223,11 @@ function handleMenuActions(selectedItem: {}, index: Number) {
 
 .data-table-actions {
   margin-right: 15px;
+}
+
+.active-class {
+  background-color: white;
+  border: solid;
+  margin-right: 10px;
 }
 </style>
