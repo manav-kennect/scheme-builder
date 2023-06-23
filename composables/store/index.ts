@@ -1,3 +1,4 @@
+import { filter } from "cypress/types/bluebird";
 import { defineStore } from "pinia";
 import { schemeData } from '~/utility/data/scheme-data.js'
 import {get_Arr_Of_ObjectByValue} from '~/utility/util.js'
@@ -59,13 +60,31 @@ export const useTabsStore = defineStore("tabs", {
 
 export const useSchemeStore = defineStore('schemes', {
   state: () => {
-    return { schemaData: schemeData, archivedSchemes: [], filteredSchemes: schemeData, searchText: "",schemaDataKeys: ["displayName","name","type"] }
+    return { schemaData: schemeData, archivedSchemes: [], filteredSchemes: schemeData, searchText: "",schemaDataKeys: ["displayName","name","type"],schemeFilter: '' }
   },
 
   getters: {
     getFilteredSchemes: (state) => {
       state.filteredSchemes = state.schemaData
       return state.filteredSchemes
+    },
+    filterSchmesFunc: (state) => {
+      return (filterType: string) => { 
+        console.log(filterType)
+        state.filteredSchemes.sort((a, b) => {
+          const filtertypeA = a[filterType].toLowerCase();
+          const filtertypeB = b[filterType].toLowerCase();
+        
+          if (filtertypeA < filtertypeB) {
+            return -1; // nameA comes before nameB
+          }
+          if (filtertypeA > filtertypeB) {
+            return 1; // nameA comes after nameB
+          }
+          return 0; // names are equal
+        });
+        return null;
+      };
     }
   },
 
@@ -132,6 +151,9 @@ export const useSchemeStore = defineStore('schemes', {
 
         })
       }
+    },
+    schemeFilterType: function(filterType) {
+      this.schemeFilter = filterType;
     }
   }
 })

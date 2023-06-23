@@ -39,8 +39,8 @@
         </template>
 
         <v-list>
-          <v-list-item v-for="(filter, i) in filters" :key="i">
-            <v-list-item-title>{{ filter.type }}</v-list-item-title>
+          <v-list-item v-for="(filter, i) in filter2" :key="i">
+            <v-list-item-title @click="filterSchmesFunc(filter)">{{ filter }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -52,8 +52,8 @@
         </template>
 
         <v-list>
-          <v-list-item v-for="(filter, i) in filters" :key="i">
-            <v-list-item-title>{{ filter.type }}</v-list-item-title>
+          <v-list-item v-for="(filter, i) in filter2" :key="i">
+            <v-list-item-title >{{ filter }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -126,10 +126,11 @@ const tab = ref(0);
 const hover = ref(true);
 const tabsStore = useTabsStore();
 const schemeStore = useSchemeStore();
-const { getFilteredSchemes, searchText } = storeToRefs(schemeStore);
+const { getFilteredSchemes, searchText,filterSchmesFunc } = storeToRefs(schemeStore);
 const selectedRowData = ref({});
 const archiveState = ref(false);
-const filters = ref([{ type: "name" }, { type: "archive" }]);
+const filter2 = ref(["name","type"])
+const filters = ref([{ type: "displayName" }, { type: "archive" }]);
 const archivedDataFilters = ref([{ type: "name" }, { type: "unarchive" }]);
 const timeoutId:Ref<Number>= ref(0);
 const headers = [
@@ -186,6 +187,12 @@ function handleMenuActions(selectedItem: {}, index: Number) {
     }
   }
 }
+
+// function selectFilterType(filterType: string) {
+//   console.log(filterType,"filter")
+//   ;
+// }
+
 </script>
 
 <style>

@@ -2,7 +2,7 @@ export const schemeData = [
     {
         name: "scheme 1",
         id: "1",
-        displayName: "Scheme_1",
+        displayName: "Scheme_3",
         type: 'kpi',
         benefits: [{
             name: "benefits",

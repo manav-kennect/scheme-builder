@@ -1,6 +1,6 @@
 export function get_Arr_Of_ObjectByValue(arr, key, value) {
     let result = []
-    let pattern = new RegExp(`^${value}`, "i")
+    let pattern = new RegExp(`${value}`, "i")
     arr.map(obj=>{
         for (var prop in obj) {
           if (obj.hasOwnProperty(prop)) {
